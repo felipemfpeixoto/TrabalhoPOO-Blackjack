@@ -1,5 +1,6 @@
 package Model;
 
-public class Jogador {
-	
+class Jogador {
+	int pontos = 0;
+	Carta mao[];
 }
