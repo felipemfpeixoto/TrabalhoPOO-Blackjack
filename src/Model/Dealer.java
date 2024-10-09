@@ -7,9 +7,10 @@ class Dealer extends Participante{
 	}
 	
 	@Override
-    public void decidirAcao() {
+    public int decidirAcao() {
         if (calculaPontos() < 17) {
             receberCarta(Baralho.giveCard());
         }
+        return 1;
     }
 }

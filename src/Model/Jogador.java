@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 class Jogador extends Participante {
 	
-    public void decidirAcao() {
+    public int decidirAcao() {
         int escolha = -1;
         while (escolha == -1) {
         	 escolha = lerValoresDoTeclado();
@@ -13,8 +13,9 @@ class Jogador extends Participante {
         switch (escolha) {
         case 1:
         	receberCarta(Baralho.giveCard());
-        case 2:
-        	return;
+        	return 0;
+        case 2: // Ficar com as cartas que tem
+        	break;
         case 3:
         	receberCarta(Baralho.giveCard()); // Ainda falta implementar a dobra de aposta
         case 4:
@@ -22,6 +23,7 @@ class Jogador extends Participante {
         case 0:
         	break;
         }
+        return -1;
     }
     
     private static int lerValoresDoTeclado() {

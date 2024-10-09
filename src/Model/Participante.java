@@ -16,8 +16,10 @@ abstract class Participante {
     public void receberCarta(Carta carta) {
         mao.add(carta);
         pontos += carta.getValor();
-        System.out.println("Carta recebida: " + carta.getNome() + " de " + carta.getNaipe());
-        System.out.println("Pontuação: " + pontos);
+        System.out.printf("\n");
+        System.out.println("Carta recebida: " + carta.getNome());
+        System.out.println("Pontos: " + pontos);
+        System.out.printf("\n");
     }
     
     public int calculaPontos() {
@@ -28,5 +30,9 @@ abstract class Participante {
         return pontos;
     }
     
-    public abstract void decidirAcao();
+    public boolean estourou() {
+    	return pontos > 21;
+    }
+    
+    public abstract int decidirAcao();
 }
