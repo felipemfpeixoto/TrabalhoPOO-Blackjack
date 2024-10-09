@@ -22,6 +22,10 @@ abstract class Participante {
         System.out.printf("\n");
     }
     
+    public void restartPoints() {
+    	pontos = 0;
+    }
+    
     public int calculaPontos() {
         int pontos = 0;
         for (Carta carta : mao) {
