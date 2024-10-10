@@ -5,15 +5,15 @@ import java.util.Collections;
 import java.util.List;
 
 class Baralho {
-    private static List<Carta> cards;
+    public static List<Carta> cards; // Originalmente era private, mas foi mudado para public para realizar o teste unitário
     
     public Baralho() {
-        cards = new ArrayList<>();
         criarBaralho();
-        sortBaralho();
+//        sortBaralho(); // MARK: Comentado apenas para realização dos testes unitários!!!
     }
     
     private void criarBaralho() {
+    	cards = new ArrayList<>();
         String[] naipes = {"Espadas", "Ouros", "Paus", "Copas"};
         String[] valores = {"Ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Valete", "Dama", "Rei"};
         
