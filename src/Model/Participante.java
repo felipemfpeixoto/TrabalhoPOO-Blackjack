@@ -38,5 +38,9 @@ abstract class Participante {
     	return pontos > 21;
     }
     
+    public boolean checkBlackJack() {
+    	return (mao.size() == 2) && (pontos == 21);
+    }
+    
     public abstract int decidirAcao();
 }
