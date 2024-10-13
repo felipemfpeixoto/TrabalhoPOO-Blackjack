@@ -7,7 +7,8 @@ import java.util.Scanner;
 public class Teste {
     public static void main(String[] args) {
         Baralho baralho = new Baralho();
-        Jogador jogador = new Jogador();
+        Banca banca = new Banca();
+        Jogador jogador = new Jogador(banca);
         Dealer dealer = new Dealer();
         
         // ****************************************** Bloco responsável pela interação com o usuário ******************************************
