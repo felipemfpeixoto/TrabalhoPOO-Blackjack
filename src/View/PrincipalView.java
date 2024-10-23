@@ -9,7 +9,9 @@ public class PrincipalView extends JFrame {
     private static JPanel contentPanel; 
     
     public PrincipalView() {
-        setSize(400, 300);
+        setSize(800, 600);
+        setMinimumSize(new Dimension(400, 300));
+        setMaximumSize(new Dimension(1366, 768));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         contentPanel = new JPanel(new CardLayout());
         setContentPane(contentPanel);
