@@ -1,46 +1,47 @@
 package Model;
 
 class Dealer extends Participante {
-    private boolean revelarCartas;  
 
     public Dealer() {
         super();
-        this.revelarCartas = false;  
     }
 
     @Override
     public int decidirAcao() {
-        if (calculaPontos() < 17) {
-            receberCarta(Baralho.giveCard());
+        
+        if (pontos < 17) {
             return 1;  
         }
         return 0;  
     }
-    
-    
-    public void revelarSegundaCarta() {
-        this.revelarCartas = true;
-        mostrarCartas();  
-        
-        
-        while (calculaPontos() < 17) {
-            receberCarta(Baralho.giveCard());  
-            mostrarCartas();  
-        }
-    }
 
-   
-    public void mostrarCartas() {
-        if (revelarCartas) {
-            System.out.println("CHAMA");
-        } else {
+    public void jogar() {
+        
+        while (pontos < 17) {
+            Carta novaCarta = Baralho.giveCard();  
+            receberCarta(novaCarta);  
+
             
-            System.out.println("CHAMA OU NAO CHAMA");
+            if (pontos > 21) {
+                System.out.println("Dealer passou do limite com " + pontos + " pontos!");
+                break;  
+            }
         }
+
+        
+        mostrarCartas();
     }
 
-    
+    public void mostrarCartas() {
+        System.out.println("Cartas do Dealer:");
+        for (Carta carta : mao) {
+            System.out.println("Carta recebida: " + carta.getValor());
+        }
+        System.out.println("Total de pontos: " + pontos);
+    }
+
     public void reset() {
-        this.revelarCartas = false; 
+        mao.clear();  
+        restartPoints();
     }
 }

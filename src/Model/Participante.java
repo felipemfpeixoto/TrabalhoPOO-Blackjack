@@ -35,7 +35,18 @@ abstract class Participante {
     }
     
     public boolean estourou() {
-    	return pontos > 21;
+        if (pontos > 21) {
+            // Verifica se existe um Ás na mão do jogador
+            for (Carta carta : mao) {
+                if (carta.getNome().equalsIgnoreCase("Ás") && carta.getValor() == 11) {
+                    System.out.println("Ás encontrado! Alterando valor para 1.");
+                    carta.setValor(1);
+                    pontos = calculaPontos(); // Recalcula os pontos após a mudança
+                    break;
+                }
+            }
+        }
+        return pontos > 21;
     }
     
     public boolean checkBlackJack() {
