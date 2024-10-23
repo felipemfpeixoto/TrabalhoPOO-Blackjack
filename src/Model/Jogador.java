@@ -4,6 +4,22 @@ import java.util.Scanner;
 
 class Jogador extends Participante {
 	
+	private int apostaAtual;
+    private Banca banca;
+
+    public Jogador(Banca banca) {
+        this.banca = banca;
+        this.apostaAtual = 0;
+    }
+
+    public int getApostaAtual() {
+        return apostaAtual;
+    }
+
+    public void setApostaAtual(int aposta) {
+        this.apostaAtual = aposta;
+    }
+    
     public int decidirAcao() {
         int escolha = -1;
         while (escolha == -1) {
@@ -17,7 +33,13 @@ class Jogador extends Participante {
         case 2: // Ficar com as cartas que tem
         	break;
         case 3:
-        	receberCarta(Baralho.giveCard()); // Ainda falta implementar a dobra de aposta
+        	if (dobrarAposta()) {
+                receberCarta(Baralho.giveCard()); // O jogador recebe mais uma carta e a aposta é dobrada
+                return 1; // Sinaliza que o jogador fez o double down
+            } else {
+                System.out.println("Não há fichas suficientes para dobrar a aposta.");
+                return -1; // Falha na aposta
+            }
         case 4:
         	// implementar método de split
         case 0:
@@ -52,6 +74,19 @@ class Jogador extends Participante {
 	
 		scanner.close();
 		return -1;
+    }
+    
+    private boolean dobrarAposta() {
+        int valorParaDobrar = apostaAtual;
+
+        if (banca.apostar(valorParaDobrar)) {
+            apostaAtual += valorParaDobrar;
+            System.out.println("Aposta dobrada! A nova aposta é: $" + apostaAtual);
+            return true;
+        } else {
+            System.out.println("Não há fichas suficientes na banca para dobrar a aposta.");
+            return false;
+        }
     }
 }
 
