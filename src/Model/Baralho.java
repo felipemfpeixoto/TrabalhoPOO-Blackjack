@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class Baralho {
+public class Baralho {
     public static List<Carta> cards; // Originalmente era private, mas foi mudado para public para realizar o teste unitário
     
     public Baralho() {

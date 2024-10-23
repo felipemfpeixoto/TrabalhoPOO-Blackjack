@@ -3,34 +3,29 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
-class Banca {
+public class Banca {
     public static List<Ficha> fichas;
 
     public Banca() {
         this.fichas = new ArrayList<>();
 
-        // Adicionando 10 fichas de $100
         for (int i = 0; i < 10; i++) {
             fichas.add(new Ficha(100));
         }
 
-        // Adicionando 10 fichas de $50
         for (int i = 0; i < 10; i++) {
             fichas.add(new Ficha(50));
         }
 
-        // Adicionando 20 fichas de $20
         for (int i = 0; i < 20; i++) {
             fichas.add(new Ficha(20));
         }
 
-        // Adicionando 50 fichas de $10
         for (int i = 0; i < 50; i++) {
             fichas.add(new Ficha(10));
         }
     }
 
-    // Método para calcular o total das fichas na banca
     public int calcularTotalFichas() {
         int total = 0;
         for (Ficha ficha : fichas) {
@@ -52,7 +47,6 @@ class Banca {
     public void ganhouAposta(int valor) {
         int valorGanho = valor * 2;
         
-        // Tentando adicionar o valor ganho com as fichas disponíveis
         while (valorGanho >= 100) {
             fichas.add(new Ficha(100));
             valorGanho -= 100;

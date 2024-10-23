@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Scanner;
 
-class Jogador extends Participante {
+public class Jogador extends Participante {
 	
 	private int apostaAtual;
     private Banca banca;
