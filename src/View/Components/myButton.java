@@ -2,7 +2,7 @@ package View.Components;
 
 import java.awt.*;
 
-public class myButton {
+public class myButton{
     int x, y, width, height;
     
     double xRatio, yRatio, widthRatio, heightRatio;
