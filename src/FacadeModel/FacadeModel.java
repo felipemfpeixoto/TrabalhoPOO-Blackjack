@@ -10,8 +10,6 @@ public enum FacadeModel {
     private Jogador jogador = new Model.Jogador(banca);
     private Dealer dealer = new Model.Dealer();
 	
-    
-    
     // BARALHO
 	public void baralho_SortCards() {
 		baralho.sortBaralho();

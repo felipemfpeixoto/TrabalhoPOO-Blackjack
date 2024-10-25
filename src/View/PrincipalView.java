@@ -7,6 +7,8 @@ import java.awt.*;
 public class PrincipalView extends JFrame {
     
     private static JPanel contentPanel; 
+    private static Jogador jogadorFrame;
+    
     
     public PrincipalView() {
         setSize(800, 600);
@@ -21,16 +23,25 @@ public class PrincipalView extends JFrame {
         contentPanel.add(new Banca(this), "Banca");
     }
   
-    
     public static void trocarTela(String nomePainel) {
         CardLayout cl = (CardLayout) (contentPanel.getLayout());
         cl.show(contentPanel, nomePainel);
+        if (nomePainel.equals("Banca")){
+        	jogadorFrame.setVisible(true);
+        }
+        else {
+        	jogadorFrame.setVisible(false);
+        }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
         	PrincipalView frame = new PrincipalView();
             frame.setVisible(true);
+            
+            jogadorFrame = new Jogador();
+            jogadorFrame.setVisible(false);
         });
+        
     }
 }

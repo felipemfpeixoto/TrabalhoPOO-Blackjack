@@ -1,6 +1,7 @@
 package View.Components;
 
 import java.awt.*;
+import javax.swing.*;
 
 public class myButton{
     int x, y, width, height;
@@ -10,6 +11,8 @@ public class myButton{
     public boolean isVisible;
     private ButtonHandler handler;
     
+    private Image buttonImage;
+    
     public myButton(double xRatio, double yRatio, double widthRatio, double heightRatio, String name, boolean isVisible, ButtonHandler handler) {
         this.xRatio = xRatio;
         this.yRatio = yRatio;
@@ -18,6 +21,11 @@ public class myButton{
         this.name = name;
         this.isVisible = isVisible;
         this.handler = handler;
+    }
+    
+    public myButton(double xRatio, double yRatio, double widthRatio, double heightRatio, String name, boolean isVisible, String imagePath, ButtonHandler handler) {
+        this(xRatio, yRatio, widthRatio, heightRatio, name, isVisible, handler);
+        loadImage(imagePath);
     }
     
     public void updateDimensions(int panelWidth, int panelHeight) {
@@ -31,6 +39,10 @@ public class myButton{
         return mouseX >= x && mouseX <= (x + width) && mouseY >= y && mouseY <= (y + height);
     }
     
+    public void loadImage(String imagePath) {
+        buttonImage = new ImageIcon(getClass().getResource(imagePath)).getImage();
+    }
+    
     public void drawButton(Graphics2D g2d, boolean isHovered) {
 
         if (isHovered) {
@@ -39,15 +51,22 @@ public class myButton{
         }
         
         if (!isVisible) return;
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(x, y, width, height);
-
-        g2d.setFont(new Font("Arial", Font.PLAIN, 12));
-        FontMetrics fm = g2d.getFontMetrics();
-        int textWidth = fm.stringWidth(name);
-        int textX = x + (width - textWidth) / 2;
-        int textY = y + (height + fm.getAscent()) / 2 - 2;
-        g2d.drawString(name, textX, textY);
+        
+        
+        
+        if (buttonImage != null) {
+            g2d.drawImage(buttonImage, x, y, width, height, null);
+        }
+        else {
+        	g2d.setColor(Color.BLACK);
+            g2d.drawRect(x, y, width, height);
+            g2d.setFont(new Font("Arial", Font.PLAIN, 12));
+            FontMetrics fm = g2d.getFontMetrics();
+            int textWidth = fm.stringWidth(name);
+            int textX = x + (width - textWidth) / 2;
+            int textY = y + (height + fm.getAscent()) / 2 - 2;
+            g2d.drawString(name, textX, textY);
+        }
     }
     
     public void click() {

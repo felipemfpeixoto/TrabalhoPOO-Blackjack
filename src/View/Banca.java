@@ -4,21 +4,20 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.*;
-import java.awt.*;
-
 
 import View.Components.*;
+import Controller.GameController;
 
 public class Banca extends JPanel {
 
     private Image backgroundImage;
     private ArrayList<myButton> ArrayButtons;
     private ArrayList<myLabel> ArrayLabels;
-    private myButton hoveredButton = null;
     
-    private JLabel dealLabel;
-    private JLabel balanceLabel;
+    private myLabel dealLabel;
+    private myLabel balanceLabel;
+    
+    private myButton hoveredButton = null;
     
 
     @Override
@@ -49,23 +48,57 @@ public class Banca extends JPanel {
         setLayout(null);
 
         setButtons();
-        mouseListeners();
         setLabels();
+        mouseListeners();
     }
     
     private void setLabels() {
-    	myLabel label1 = new myLabel("BET: 0.00", 0.02, 0.85, 0.3, 0.1, getWidth(), getHeight());
-        ArrayLabels.add(label1);
-        add(label1);
-        label1.updateText("BET: %.2f", 0);
+    	dealLabel = new myLabel("BET: 0.00", 0.02, 0.85, 0.3, 0.1, getWidth(), getHeight());
+        ArrayLabels.add(dealLabel);
+        dealLabel.updateText("BET: %.2f", 0);
         
-        myLabel label2 = new myLabel("BET: 0.00", 0.02, 0.91, 0.3, 0.1, getWidth(), getHeight());
-        ArrayLabels.add(label2);
-        add(label2);
-        label2.updateText("BAL: %.2f", 100.50);
+        balanceLabel = new myLabel("BAL: 0.00", 0.02, 0.91, 0.3, 0.1, getWidth(), getHeight());
+        ArrayLabels.add(balanceLabel);
+        balanceLabel.updateText("BAL: %.2f", 100.50);
+        
+        for (myLabel label : ArrayLabels) {
+            add(label);
+        }
     }
     
     private void setButtons() {
+    	
+    	
+    	ArrayButtons.add(new myButton(0.84, 0.25, 0.05, 0.07, "ficha1", true, "/Imagens/ficha 1$.png" , () -> {
+            System.out.println("Ficha 1$ Clicado");
+        }));
+    	
+    	ArrayButtons.add(new myButton(0.91, 0.25, 0.05, 0.07, "ficha5", true, "/Imagens/ficha 5$.png" , () -> {
+            System.out.println("Ficha 5$ Clicado");
+        }));
+    	
+    	ArrayButtons.add(new myButton(0.84, 0.35, 0.05, 0.07, "ficha10", true, "/Imagens/ficha 10$.png" , () -> {
+            System.out.println("Ficha 10$ Clicado");
+        }));
+    	
+    	ArrayButtons.add(new myButton(0.91, 0.35, 0.05, 0.07, "ficha20", true, "/Imagens/ficha 20$.png" , () -> {
+            System.out.println("Ficha 20$ Clicado");
+        }));
+    	
+    	ArrayButtons.add(new myButton(0.84, 0.45, 0.05, 0.07, "ficha50", true, "/Imagens/ficha 50$.png" , () -> {
+            System.out.println("Ficha 50$ Clicado");
+        }));
+    	
+    	ArrayButtons.add(new myButton(0.91, 0.45, 0.05, 0.07, "ficha100", true, "/Imagens/ficha 100$.png" , () -> {
+            System.out.println("Ficha 100$ Clicado");
+        }));
+    	
+    	// Botao Deque
+    	ArrayButtons.add(new myButton(0.008, 0.05, 0.14, 0.18, "deque", false, () -> {
+            System.out.println("Deque Clicado");
+            
+        }));
+    	
     	// Botao exit esquerda
         ArrayButtons.add(new myButton(0.008, 0.765, 0.182, 0.085, "exit", false, () -> {
             System.out.println("Ir Menu");
@@ -73,7 +106,7 @@ public class Banca extends JPanel {
         }));
         
         
-        // Botoes centrais
+        // Botoes centrais inferiores
         ArrayButtons.add(new myButton(0.21, 0.92, 0.14, 0.06, "double", false, () -> {
             System.out.println("Double Clicado");
            
@@ -95,7 +128,7 @@ public class Banca extends JPanel {
         }));
         
         
-        // Botoes laterais
+        // Botoes laterais inferiores
         ArrayButtons.add(new myButton(0.84, 0.77, 0.14, 0.06, "hit", false, () -> {
             System.out.println("Hit Clicado");
             
@@ -110,6 +143,7 @@ public class Banca extends JPanel {
             System.out.println("Sunder Clicado");
             
         }));
+
     }
     
     private void mouseListeners() {

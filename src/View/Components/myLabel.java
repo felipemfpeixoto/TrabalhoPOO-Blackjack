@@ -17,7 +17,7 @@ public class myLabel extends JLabel{
         this.heightRatio = heightRatio;
         
         setFont(new Font("Arial", Font.PLAIN, 0));
-        setForeground(Color.RED);
+        setForeground(Color.WHITE);
         
         updateDimensions(parentWidth, parentHeight);
     }
