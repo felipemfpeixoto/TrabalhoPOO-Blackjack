@@ -9,7 +9,6 @@ public class PrincipalView extends JFrame {
     private static JPanel contentPanel; 
     public static Jogador jogadorFrame;
     
-    
     public PrincipalView() {
         setSize(800, 600);
         setMinimumSize(new Dimension(400, 300));
