@@ -21,8 +21,8 @@ public class Creditos extends JPanel {
 	    String[] lines = {
 	        "Trabalho POO 2024.2",
 	        "Feito por:",
-    	    "Felipe Peixoto - (mat)",
-    	    "Lipe - 22261050",
+    	    "Felipe Peixoto - 2211750",
+    	    "Luis Felipe Gadelha - 22261050",
     	    "Luiz Seibel - 21110799"
 	    };
 

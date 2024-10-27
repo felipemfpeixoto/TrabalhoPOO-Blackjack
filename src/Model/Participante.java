@@ -53,5 +53,9 @@ abstract class Participante {
     	return (mao.size() == 2) && (pontos == 21);
     }
     
+    public List<Carta> getMao() {
+    	return this.mao;
+    }
+    
     public abstract int decidirAcao();
 }

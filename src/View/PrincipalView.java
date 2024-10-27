@@ -7,7 +7,7 @@ import java.awt.*;
 public class PrincipalView extends JFrame {
     
     private static JPanel contentPanel; 
-    private static Jogador jogadorFrame;
+    public static Jogador jogadorFrame;
     
     
     public PrincipalView() {
@@ -42,6 +42,5 @@ public class PrincipalView extends JFrame {
             jogadorFrame = new Jogador();
             jogadorFrame.setVisible(false);
         });
-        
     }
 }

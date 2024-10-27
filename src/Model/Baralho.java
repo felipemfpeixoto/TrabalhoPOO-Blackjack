@@ -9,13 +9,13 @@ public class Baralho {
     
     public Baralho() {
         criarBaralho();
-//        sortBaralho(); // MARK: Comentado apenas para realização dos testes unitários!!!
+        sortBaralho(); // MARK: Comentado apenas para realização dos testes unitários!!!
     }
     
     private void criarBaralho() {
     	cards = new ArrayList<>();
-        String[] naipes = {"Espadas", "Ouros", "Paus", "Copas"};
-        String[] valores = {"Ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Valete", "Dama", "Rei"};
+        String[] naipes = {"s", "d", "c", "h"};
+        String[] valores = {"a", "2", "3", "4", "5", "6", "7", "8", "9", "t", "j", "q", "k"};
         
         for (int i = 0; i < 8; i ++) { // método sendo aplicado para a criação de 8 baralhos
 	        for (String naipe : naipes) { 
@@ -24,12 +24,13 @@ public class Baralho {
 	                // Define o valor da carta: Valetes, Damas e Reis valem 10;
 	                // Ases valem 11 por padrão.
 	                switch (nome) {
-	                    case "Valete":
-	                    case "Dama":
-	                    case "Rei":
+	                    case "j":
+	                    case "q":
+	                    case "k":
+	                    case "t":
 	                        value = 10;
 	                        break;
-	                    case "Ás":
+	                    case "a":
 	                        value = 11;
 	                        break;
 	                    default:
