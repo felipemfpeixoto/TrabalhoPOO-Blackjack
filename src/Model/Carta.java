@@ -1,6 +1,6 @@
 package Model;
 
-public class Carta { // Originalmente era private, mas foi mudado para public para realizar o pacote View
+class Carta { // Originalmente era private, mas foi mudado para public para realizar o pacote View
 	
     private String nome;
     private String naipe;

@@ -53,8 +53,12 @@ abstract class Participante {
     	return (mao.size() == 2) && (pontos == 21);
     }
     
-    public List<Carta> getMao() {
-    	return this.mao;
+    public List<String> getMao() { // Retorna um array de strings com os nomes de cada carta da mão do participante (2a, por exemplo)
+        List<String> maoFormatada = new ArrayList<>();
+        for (Carta carta : this.mao) {
+            maoFormatada.add(carta.getNome() + carta.getNaipe());
+        }
+        return maoFormatada;
     }
     
     public abstract int decidirAcao();

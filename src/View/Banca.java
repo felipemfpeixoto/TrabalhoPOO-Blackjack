@@ -7,9 +7,11 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 import View.Components.*;
-import Controller.GameController;
+import Controller.*;
 
 public class Banca extends JPanel {
+	
+	private GameController gameController;
 
     private Image backgroundImage;
     private Image carta1, carta2;
@@ -54,6 +56,9 @@ public class Banca extends JPanel {
     }
 
     public Banca(PrincipalView frame) {
+    	
+    	gameController = GameController.getInstancia(); // Instanciando o singleton GameController
+    	
         backgroundImage = new ImageIcon(getClass().getResource("/Imagens/blackjack.png")).getImage();
         ArrayButtons = new ArrayList<>();
         ArrayLabels = new ArrayList<>();
@@ -155,7 +160,6 @@ public class Banca extends JPanel {
         // Botoes laterais inferiores
         ArrayButtons.add(new myButton(0.84, 0.77, 0.14, 0.06, "hit", false, () -> {
             System.out.println("Hit Clicado");
-            PrincipalView.jogadorFrame.getCard();
         }));
         
         ArrayButtons.add(new myButton(0.84, 0.845, 0.14, 0.06, "stand", false, () -> {

@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Banca {
+class Banca {
     public static List<Ficha> fichas;
 
     public Banca() {

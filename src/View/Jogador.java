@@ -1,6 +1,5 @@
 package View;
-import Model.Baralho;
-import Model.Carta;
+import Controller.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Jogador extends JFrame {
+	
+	private GameController gameController;
+	
     private Image backgroundImage;
-    private Image carta1, carta2;
     
-    private Baralho barallho = new Baralho();
-    private List<Carta> mao = new ArrayList<>();
+    private List<String> cartasNames = new ArrayList<>();
     private List<Image> cartas = new ArrayList<>();
 
     @Override
@@ -44,35 +44,27 @@ public class Jogador extends JFrame {
 
         // Carrega a imagem de fundo
         backgroundImage = new ImageIcon(getClass().getResource("/Imagens/fundoJogador.png")).getImage();
+        
+        // Instanciando o singleton GameController
+        gameController = GameController.getInstancia();
+        atualizaCartas();
     }
 
-    // Função para mostrar as cartas na interface
-    private void mostrarCartas() {
-    	atualizaCartas();
-        
-        // Atualiza a interface
-        repaint();
-    }
-    
     private void atualizaCartas() {
     	cartas.clear();
+    	cartasNames.clear();
     	
-        for (Carta carta : mao) {
-        	Image newCarta = new ImageIcon(getClass().getResource("/Imagens/" + carta.getNome() + carta.getNaipe() + ".gif")).getImage();
+    	cartasNames = gameController.getMaoJogador();
+    	
+        for (String cartaName : cartasNames) {
+        	Image newCarta = new ImageIcon(getClass().getResource("/Imagens/" + cartaName + ".gif")).getImage();
         	if (newCarta == null) {
-        		System.out.printf("Carta %s%s não encontrada\n", carta.getNome(), carta.getNaipe());
+        		System.out.printf("Carta %s%s não encontrada\n", cartaName);
         	} else {
-        	cartas.add(newCarta);
+        		cartas.add(newCarta);
         	}
         }
-    }
-    
-    public void getCard() {
-    	Carta carta = Baralho.giveCard();
-    	mao.add(carta);
-    	for (Carta cartaMao : mao) {
-    		System.out.printf("%s%s", cartaMao.getNome(), cartaMao.getNaipe());
-    	}
-    	mostrarCartas();
+        
+        repaint();
     }
 }

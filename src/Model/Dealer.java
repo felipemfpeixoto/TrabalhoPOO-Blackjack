@@ -1,6 +1,6 @@
 package Model;
 
-public class Dealer extends Participante {
+class Dealer extends Participante {
 
     public Dealer() {
         super();
