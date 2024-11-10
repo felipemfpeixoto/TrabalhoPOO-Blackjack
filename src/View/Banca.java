@@ -32,6 +32,9 @@ public class Banca extends JPanel {
     private int balance = 2000;
     private int bet = 0;
     private boolean estourou = false;
+    private int dealerStatus = -1;
+    
+    private boolean rodadaTerminou = false;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -171,23 +174,15 @@ public class Banca extends JPanel {
         }));
         
         ArrayButtons.add(new myButton(0.66, 0.92, 0.14, 0.06, "deal", false, () -> {
-            if (cartasNames.isEmpty() || estourou) { // Esse if garante que apenas fará alguma coisa se não tiverem cartas na mesa
+            if (cartasNames.isEmpty() || estourou || rodadaTerminou) { // Esse if garante que apenas fará alguma coisa se não tiverem cartas na mesa
+            	rodadaTerminou = false;
             	estadoInicial();
 	            // Ao ser clicado, as cartas devem ser distribuídas
 	            gameController.onDeal();
 	            
-	            cartasNames = gameController.getMaoDealer();
 	            dealerPoints = gameController.getPontosDealer();
-	            
-	            // Procura as imagens no diretório do projeto e adiciona as mesmas à List<Image>
-	        	for (String cartaName : cartasNames) {
-	            	Image newCarta = new ImageIcon(getClass().getResource("/Imagens/" + cartaName + ".gif")).getImage();
-	            	if (newCarta == null) {
-	            		System.out.printf("Carta %s%s não encontrada\n", cartaName);
-	            	} else {
-	            		cartas.add(newCarta);
-	            	}
-	            }
+
+	            atualizaCartasBanca();
 	        	
 	        	jogador.atualizaCartas();
 	            
@@ -213,6 +208,33 @@ public class Banca extends JPanel {
         
         ArrayButtons.add(new myButton(0.84, 0.845, 0.14, 0.06, "stand", false, () -> {
             System.out.println("Stand Clicado");
+            
+            if (!cartasNames.isEmpty() && !estourou) {
+            	
+            	if (gameController.getPontosDealer() < 17 ) {
+	            	while (dealerStatus < 1) { // Terminar a jogada do dealer
+	            		// Pedir mais uma carta para o dealer
+	                    dealerStatus = gameController.onStand();
+	                    
+	                    // Atualizando a pontuação do dealer
+	                    dealerPoints = gameController.getPontosDealer();
+	                    dealerPointsLabel.setText("Pontos do Dealer: " + dealerPoints);
+	                    System.out.println("Ainda no while");
+	            	}
+		        	
+		        	// Aqui, analisar qual foi o resultado e mostrar na tela como um aviso
+		        	if (dealerStatus == 1) {
+		        		System.out.println("Dealer Parou");
+		        	} else {
+		        		System.out.println("Dealer Estourou");
+		        	}
+            	} else {
+            		dealerStatus = 1;
+	        		System.out.println("Dealer Parou");
+            	}
+            	rodadaTerminou = true;
+        		atualizaCartasBanca();
+            }
             
         }));
         
@@ -284,5 +306,20 @@ public class Banca extends JPanel {
 		cartasNames.clear();
 		cartas.clear();
 		estourou = false;
+	}
+	
+	private void atualizaCartasBanca() {
+		cartas.clear();
+		cartasNames = gameController.getMaoDealer();
+        // Procura as imagens no diretório do projeto e adiciona as mesmas à List<Image>
+    	for (String cartaName : cartasNames) {
+        	Image newCarta = new ImageIcon(getClass().getResource("/Imagens/" + cartaName + ".gif")).getImage();
+        	if (newCarta == null) {
+        		System.out.printf("Carta %s%s não encontrada\n", cartaName);
+        	} else {
+        		cartas.add(newCarta);
+        	}
+        }
+    	repaint();
 	}
 }

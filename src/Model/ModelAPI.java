@@ -97,9 +97,16 @@ public class ModelAPI {
         dealerTurno();
     }
 
-    private void dealerTurno() {
-        dealer.decidirAcao();
+    public int dealerTurno() { // Função retorna 0 se o dealer ainda vai jogar mais, 1 se o dealer parou, e 2 se o dealer estourou
         notifyObservers("Turno do dealer terminado");
+        
+        if (dealer.pontos < 17) {
+        	return 0;
+        } else if (dealer.pontos >= 17 && dealer.pontos <= 21) {
+        	return 1;
+        } else {
+        	return 2;
+        }
     }
 
     private void dealInicial() {
@@ -116,6 +123,10 @@ public class ModelAPI {
     public boolean pedirCartaJogador() {
     	jogador.receberCarta(Baralho.giveCard());
     	return jogador.estourou();
+    }
+    
+    public void pedirCartaDealer() {
+    	dealer.receberCarta(Baralho.giveCard());
     }
     
     // Métodos de acesso para cartas do dealer e do jogador (para visualização futura)

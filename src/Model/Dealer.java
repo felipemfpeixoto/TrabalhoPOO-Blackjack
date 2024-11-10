@@ -15,7 +15,7 @@ class Dealer extends Participante {
         return 0;  
     }
 
-    public void jogar() {
+    public boolean jogar() { // Esse método deve usar o observable, para notificar a mudança das cartas do dealer
         
         while (pontos < 17) {
             Carta novaCarta = Baralho.giveCard();  
@@ -27,9 +27,14 @@ class Dealer extends Participante {
                 break;  
             }
         }
+        
+        if (pontos >= 17) {
+        	return false;
+        }
 
         
         mostrarCartas();
+        return true;
     }
 
     public void mostrarCartas() {
