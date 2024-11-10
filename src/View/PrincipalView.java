@@ -25,20 +25,25 @@ public class PrincipalView extends JFrame {
     public static void trocarTela(String nomePainel) {
         CardLayout cl = (CardLayout) (contentPanel.getLayout());
         cl.show(contentPanel, nomePainel);
-        if (nomePainel.equals("Banca")){
-        	jogadorFrame.setVisible(true);
-        }
-        else {
-        	jogadorFrame.setVisible(false);
+        
+        if (jogadorFrame != null) { // Verifica se jogadorFrame foi inicializado
+            if (nomePainel.equals("Banca")) {
+                jogadorFrame.setVisible(true);
+            } else {
+                jogadorFrame.setVisible(false);
+            }
+        } else {
+            System.out.println("jogadorFrame ainda não foi inicializado.");
         }
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
         	PrincipalView frame = new PrincipalView();
             frame.setVisible(true);
             
-            jogadorFrame = new Jogador();
+            jogadorFrame = Jogador.getInstancia();
             jogadorFrame.setVisible(false);
         });
     }

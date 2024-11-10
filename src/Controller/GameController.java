@@ -56,6 +56,10 @@ public class GameController implements Observer {
         // Este método deve ser implementado na View futuramente para exibir atualizações
         System.out.println("Notificação para a View: " + evento);
     }
+    
+    public void reinicia() {
+    	modelAPI.reinicia();
+    }
 
     // Métodos de controle para os botões da interface
     public void onExit() {
@@ -85,11 +89,11 @@ public class GameController implements Observer {
         modelAPI.iniciarNovoJogo();
     }
 
-    public void onHit() {
+    public boolean onHit() {
         // Ação para pedir mais uma carta
         System.out.println("Jogador pediu uma carta (Hit).");
         notificarView("Hit - Carta Pedida");
-//        modelAPI.pedirCartaJogador();
+        return modelAPI.pedirCartaJogador();
     }
 
     public void onStand() {

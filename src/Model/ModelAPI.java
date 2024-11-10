@@ -74,7 +74,13 @@ public class ModelAPI {
         }
 
         // Permite ao jogador decidir a ação
-        jogadorTurno();
+//        jogadorTurno();
+        return;
+    }
+    
+    public void reinicia() {
+    	jogador.reinicia();
+    	dealer.reinicia();
     }
 
     private void jogadorTurno() {
@@ -107,6 +113,11 @@ public class ModelAPI {
         jogador.receberCarta(Baralho.giveCard());
     }
 
+    public boolean pedirCartaJogador() {
+    	jogador.receberCarta(Baralho.giveCard());
+    	return jogador.estourou();
+    }
+    
     // Métodos de acesso para cartas do dealer e do jogador (para visualização futura)
     public List<String> getCartasDealer() {
         return dealer.getMao();

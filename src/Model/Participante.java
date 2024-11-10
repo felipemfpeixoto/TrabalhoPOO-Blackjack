@@ -38,7 +38,7 @@ abstract class Participante {
         if (pontos > 21) {
             // Verifica se existe um Ás na mão do jogador
             for (Carta carta : mao) {
-                if (carta.getNome().equalsIgnoreCase("Ás") && carta.getValor() == 11) {
+                if (carta.getNome().equalsIgnoreCase("a") && carta.getValor() == 11) {
                     System.out.println("Ás encontrado! Alterando valor para 1.");
                     carta.setValor(1);
                     pontos = calculaPontos(); // Recalcula os pontos após a mudança
@@ -59,6 +59,11 @@ abstract class Participante {
             maoFormatada.add(carta.getNome() + carta.getNaipe());
         }
         return maoFormatada;
+    }
+    
+    public void reinicia() {
+    	mao.clear();
+    	pontos = 0;
     }
     
     public abstract int decidirAcao();
