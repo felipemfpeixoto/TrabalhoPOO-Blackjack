@@ -9,6 +9,8 @@ public class GameController implements Observer {
 
     private static GameController instanciaUnica;
     private ModelAPI modelAPI;
+    
+    private int dealerStatus = -1; // Começa com -1 pois o dealer ainda não jogou
 
     // Construtor privado para o padrão Singleton
     private GameController() {
@@ -96,11 +98,13 @@ public class GameController implements Observer {
         return modelAPI.pedirCartaJogador();
     }
 
-    public void onStand() {
+    public int onStand() {
         // Ação para encerrar o turno do jogador
         System.out.println("Jogador escolheu Stand (não quer mais cartas).");
         notificarView("Stand - Turno Encerrado");
-//        modelAPI.finalizarTurnoJogador();
+        
+        modelAPI.pedirCartaDealer();
+    	return modelAPI.dealerTurno();
     }
 
     public void onSurrender() {
