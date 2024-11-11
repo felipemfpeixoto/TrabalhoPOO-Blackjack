@@ -35,14 +35,38 @@ class Banca {
     }
     
     public boolean apostar(int valor) {
-        for (Ficha ficha : fichas) {
-            if (ficha.getValor() == valor) {
-                fichas.remove(ficha);
-                return true; // Aposta feita com sucesso
+        int[] valoresFichas = {100, 50, 20, 10, 5, 1};
+        List<Ficha> fichasParaRemover = new ArrayList<>();
+        int valorRestante = valor;
+
+        for (int valorFicha : valoresFichas) {
+            if (valorRestante <= 0) {
+                break;
+            }
+            
+            
+            for (Ficha ficha : new ArrayList<>(fichas)) {
+                if (ficha.getValor() == valorFicha && valorRestante >= valorFicha) {
+                    fichasParaRemover.add(ficha); 
+                    valorRestante -= valorFicha;  
+                    fichas.remove(ficha);         
+                    
+                    if (valorRestante <= 0) {
+                        break;
+                    }
+                }
             }
         }
-        return false; // Não havia ficha com o valor solicitado
+
+        
+        if (valorRestante > 0) {
+            fichas.addAll(fichasParaRemover); 
+            return false; // Aposta invalida
+        }
+
+        return true; // Aposta valida
     }
+
     
     public void ganhouAposta(int valor) {
         int valorGanho = valor * 2;

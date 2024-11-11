@@ -29,7 +29,7 @@ public class Banca extends JPanel {
     
     private myButton hoveredButton = null;
     
-    private int balance = 2000;
+    private int balance = 0;
     private int bet = 0;
     private boolean estourou = false;
     private int dealerStatus = -1;
@@ -66,6 +66,7 @@ public class Banca extends JPanel {
                 i++;
             }
         }
+        
     }
 
 
@@ -87,6 +88,9 @@ public class Banca extends JPanel {
         dealerPointsLabel.setForeground(Color.WHITE);
         dealerPointsLabel.setBounds(10, 10, 200, 30);
         this.add(dealerPointsLabel);
+        
+        
+        balance = gameController.getSaldo();
 
         setButtons();
         setLabels();
@@ -96,11 +100,11 @@ public class Banca extends JPanel {
     private void setLabels() { // Função incorreta, precisamos olhar mais atentamente
     	betLabel = new myLabel("BET: 0.00", 0.02, 0.85, 0.3, 0.1, getWidth(), getHeight());
         ArrayLabels.add(betLabel);
-        betLabel.setForeground(Color.BLACK);
+        betLabel.setForeground(Color.WHITE);
         betLabel.updateText("BET: %.2f", bet);
         
         balanceLabel = new myLabel("BAL: 0.00", 0.02, 0.91, 0.3, 0.1, getWidth(), getHeight());
-        balanceLabel.setForeground(Color.BLACK);
+        balanceLabel.setForeground(Color.WHITE);
         ArrayLabels.add(balanceLabel);
         balanceLabel.updateText("BAL: %.2f", balance);
         
@@ -170,11 +174,19 @@ public class Banca extends JPanel {
         
         ArrayButtons.add(new myButton(0.51, 0.92, 0.14, 0.06, "clear", false, () -> {
             System.out.println("Clear Clicado");
+            resetaBet();
+            
             
         }));
         
         ArrayButtons.add(new myButton(0.66, 0.92, 0.14, 0.06, "deal", false, () -> {
             if (cartasNames.isEmpty() || estourou || rodadaTerminou) { // Esse if garante que apenas fará alguma coisa se não tiverem cartas na mesa
+            	if (gameController.aposta(bet) == 0) {
+            		resetaBet();
+            		return;
+            	}
+            	System.out.println("Aposta valida");
+            	
             	rodadaTerminou = false;
             	estadoInicial();
 	            // Ao ser clicado, as cartas devem ser distribuídas
@@ -185,6 +197,17 @@ public class Banca extends JPanel {
 	            atualizaCartasBanca();
 	        	
 	        	jogador.atualizaCartas();
+	        	
+	        	if (jogador.points == 21) {
+	        		JOptionPane.showMessageDialog(this, "Você ganhou! Blackjack.", "Alerta", JOptionPane.WARNING_MESSAGE);
+	        		ganhou();
+	        		rodadaTerminou = true;
+	        	}
+	        	if(dealerPoints == 21) {
+	        		JOptionPane.showMessageDialog(this, "Você perdeu! Blackjack.", "Alerta", JOptionPane.WARNING_MESSAGE);
+	        		rodadaTerminou = true;
+	        		resetaBet();
+	        	}
 	            
 	        	repaint();
             }
@@ -202,6 +225,8 @@ public class Banca extends JPanel {
 	        	
 	        	if (estourou) {
 	        		// Mostra um alerta de que o jogador perdeu
+	        		JOptionPane.showMessageDialog(this, "Você perdeu! Estourou o limite de pontos.", "Alerta", JOptionPane.WARNING_MESSAGE);
+	        		resetaBet();
 	        	}
             }
         }));
@@ -227,6 +252,10 @@ public class Banca extends JPanel {
 		        		System.out.println("Dealer Parou");
 		        	} else {
 		        		System.out.println("Dealer Estourou");
+		        		// Reinii
+		        		JOptionPane.showMessageDialog(this, "Você ganhou! Dealer estourou.", "Alerta", JOptionPane.WARNING_MESSAGE);
+		        		ganhou();
+		        		
 		        	}
             	} else {
             		dealerStatus = 1;
@@ -301,6 +330,17 @@ public class Banca extends JPanel {
 	    repaint(); // Redesenha a interface
 	}
 	
+	private void resetaBet() {
+		balance = gameController.getSaldo();
+		bet = 0;
+		
+		 // Atualiza o texto dos labels para refletir os novos valores
+	    betLabel.updateText("BET: %.2f", bet);
+	    balanceLabel.updateText("BAL: %.2f", balance);
+	    
+	    repaint(); // Redesenha a interface
+	}
+	
 	private void estadoInicial() {
     	gameController.reinicia();
 		cartasNames.clear();
@@ -321,5 +361,10 @@ public class Banca extends JPanel {
         	}
         }
     	repaint();
+	}
+	
+	private void ganhou() {
+		gameController.ganhouAposta(bet);
+		resetaBet();
 	}
 }

@@ -12,6 +12,8 @@ public class ModelAPI {
     private Jogador jogador;
     private Dealer dealer;
     private List<Observer> observers;
+    
+
 
     // Construtor privado para o Singleton
     private ModelAPI() {
@@ -20,6 +22,7 @@ public class ModelAPI {
         jogador = new Jogador(banca);
         dealer = new Dealer();
         observers = new ArrayList<>();
+        
     }
 
     // Método para obter a única instância da classe (Singleton)
@@ -29,6 +32,22 @@ public class ModelAPI {
         }
         return instanciaUnica;
     }
+    
+    public int getSaldo() {
+        return banca.calcularTotalFichas();
+    }
+    
+    public int aposta(int valor) {
+    	if (banca.apostar(valor) == true) {
+    		return valor;
+    	}
+    	return 0;
+    }
+    
+    public void ganhouAposta(int valor) {
+    	banca.ganhouAposta(valor);
+    }
+    
 
     // Adiciona um observador
     public void addObserver(Observer observer) {

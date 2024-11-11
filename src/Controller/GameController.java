@@ -113,5 +113,18 @@ public class GameController implements Observer {
         notificarView("Surrender - Rodada Reiniciada");
 //        modelAPI.jogadorDesistir();
     }
+    
+    public int getSaldo() {
+        return modelAPI.getSaldo();
+    }
+    
+    public int aposta(int valor) {
+    	return modelAPI.aposta(valor);
+    }
+    
+    public void ganhouAposta(int valor) {
+    	modelAPI.ganhouAposta(valor);
+    }
+    
 }
 

@@ -11,11 +11,11 @@ class Jogador extends Participante {
         this.banca = banca;
         this.apostaAtual = 0;
     }
-
+    
     public int getApostaAtual() {
         return apostaAtual;
     }
-
+    
     public void setApostaAtual(int aposta) {
         this.apostaAtual = aposta;
     }

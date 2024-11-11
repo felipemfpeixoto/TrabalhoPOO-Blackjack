@@ -15,7 +15,7 @@ public class Jogador extends JFrame {
     private List<String> cartasNames = new ArrayList<>();
     private List<Image> cartas = new ArrayList<>();
 
-    private int points = 0;
+    int points = 0;
     private JLabel pointsLabel;
     private BackgroundPanel backgroundPanel;
 
