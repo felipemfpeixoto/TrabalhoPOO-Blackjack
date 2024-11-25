@@ -1,4 +1,4 @@
-Saldo: 2400
-UltimaAposta: 0
-CartasJ: []
-CartasD: []
+Saldo: 1950
+UltimaAposta: 150
+CartasJ: [jd, 9d]
+CartasD: [tc, 4d]

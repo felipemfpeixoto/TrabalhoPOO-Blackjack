@@ -149,7 +149,11 @@ public class ModelAPI {
     
     public void daCartasJeD(String cartasJogador, String cartasDealer) {
     	 System.out.println(cartasJogador);
-  
+    	 
+    	 // Limpa se tiver na mesma sessao
+    	 jogador.reinicia();
+    	 dealer.reinicia();
+    	 
         // Remover colchetes e separar as cartas
         String[] partes = cartasJogador.replace("[", "").replace("]", "").split(", ");
 

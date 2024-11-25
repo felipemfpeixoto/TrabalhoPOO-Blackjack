@@ -166,6 +166,7 @@ public class Banca extends JPanel {
         // Botoes centrais inferiores
         ArrayButtons.add(new myButton(0.21, 0.92, 0.14, 0.06, "double", false, () -> {
             System.out.println("Double Clicado");
+            atualizaBet(bet);
            
         }));
         

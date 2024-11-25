@@ -158,11 +158,6 @@ public class GameController implements Observer {
         String cartasJogador = null;
         String cartasDealer = null;
         String ultimaAposta = null;
-        
-        
-        
-
-        
 
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArq))) {
             String linha;
