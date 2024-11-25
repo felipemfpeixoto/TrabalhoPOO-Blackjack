@@ -33,14 +33,26 @@ public class ModelAPI {
         return instanciaUnica;
     }
     
+    
+    public void setSaldo(int saldo) {
+    	banca.setSaldo(saldo);
+    }
+    
     public int getSaldo() {
         return banca.calcularTotalFichas();
     }
     
+    public int getAposta() {
+    	return jogador.getApostaAtual();
+    }
+    
+    
     public int aposta(int valor) {
     	if (banca.apostar(valor) == true) {
+    		jogador.setApostaAtual(valor);
     		return valor;
     	}
+    	jogador.setApostaAtual(0);
     	return 0;
     }
     
@@ -132,6 +144,64 @@ public class ModelAPI {
         recebemCartas();
         recebemCartas();
         notifyObservers("Cartas iniciais distribuídas");
+    }
+    
+    
+    public void daCartasJeD(String cartasJogador, String cartasDealer) {
+    	 System.out.println(cartasJogador);
+  
+        // Remover colchetes e separar as cartas
+        String[] partes = cartasJogador.replace("[", "").replace("]", "").split(", ");
+
+        for (String parte : partes) {
+            String nome = parte.substring(0, parte.length() - 1); 
+            String naipe = parte.substring(parte.length() - 1);
+
+            // Determinar o valor da carta
+            int valor;
+            switch (nome) {
+                case "j":
+                case "q":
+                case "k":
+                case "t":
+                    valor = 10;
+                    break;
+                case "a":
+                    valor = 11;
+                    break;
+                default:
+                    valor = Integer.parseInt(nome);
+            }
+            
+            jogador.receberCarta(new Carta(nome, naipe, valor));
+        }
+        
+        
+        partes = cartasDealer.replace("[", "").replace("]", "").split(", ");
+        
+        for (String parte : partes) {
+            String nome = parte.substring(0, parte.length() - 1); 
+            String naipe = parte.substring(parte.length() - 1);
+
+            // Determinar o valor da carta
+            int valor;
+            switch (nome) {
+                case "j":
+                case "q":
+                case "k":
+                case "t":
+                    valor = 10;
+                    break;
+                case "a":
+                    valor = 11;
+                    break;
+                default:
+                    valor = Integer.parseInt(nome);
+            }
+            
+            dealer.receberCarta(new Carta(nome, naipe, valor));
+        }
+ 
     }
 
     private void recebemCartas() {

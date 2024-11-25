@@ -158,6 +158,8 @@ public class Banca extends JPanel {
         ArrayButtons.add(new myButton(0.008, 0.765, 0.182, 0.085, "exit", false, () -> {
             System.out.println("Ir Menu");
             PrincipalView.trocarTela("MenuInicial");
+            
+            gameController.salvarEmTxt();
         }));
         
         
@@ -351,6 +353,12 @@ public class Banca extends JPanel {
 	private void atualizaCartasBanca() {
 		cartas.clear();
 		cartasNames = gameController.getMaoDealer();
+		
+		if (cartasNames == null || cartasNames.isEmpty()) {
+	        System.out.println("Não há cartas para atualizar na banca.");
+	        return;
+	    }
+		
         // Procura as imagens no diretório do projeto e adiciona as mesmas à List<Image>
     	for (String cartaName : cartasNames) {
         	Image newCarta = new ImageIcon(getClass().getResource("/Imagens/" + cartaName + ".gif")).getImage();
@@ -361,6 +369,24 @@ public class Banca extends JPanel {
         	}
         }
     	repaint();
+	}
+	
+	void updateView() {
+		// cartas e pontos
+		atualizaCartasBanca();
+		dealerPoints = gameController.getPontosDealer();
+		
+		// saldo e aposta
+		balance = gameController.getSaldo();
+		balanceLabel.updateText("BAL: %.2f", balance);
+		
+		bet = gameController.getUltimaAposta();
+		betLabel.updateText("BET: %.2f", bet);
+		
+	
+		// variaveis extras
+		
+		
 	}
 	
 	private void ganhou() {

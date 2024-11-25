@@ -1,14 +1,17 @@
 package Controller;
 
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
 import Model.*;
 import Observer.*;
 import java.util.List;
 
-
 public class GameController implements Observer {
 
     private static GameController instanciaUnica;
-    private ModelAPI modelAPI;
+    private static ModelAPI modelAPI;
     
     private int dealerStatus = -1; // Começa com -1 pois o dealer ainda não jogou
 
@@ -27,11 +30,11 @@ public class GameController implements Observer {
     }
     
     // Funções para atualizar as cartas em jogo para a View
-    public List<String> getMaoJogador() {
+    public static List<String> getMaoJogador() {
     	return modelAPI.getCartasJogador();
     }
     
-    public List<String> getMaoDealer() {
+    public static List<String> getMaoDealer() {
     	return modelAPI.getCartasDealer();
     }
     
@@ -126,5 +129,89 @@ public class GameController implements Observer {
     	modelAPI.ganhouAposta(valor);
     }
     
+    public int getUltimaAposta() {
+    	return modelAPI.getAposta();
+    }
+    
+    public void salvarEmTxt() {
+    	String nomeArq = "dados.txt";
+    	String conteudo = "Saldo: " + getSaldo() + "\n"
+    			+ "UltimaAposta: " + getUltimaAposta() + "\n"
+    			+ "CartasJ: " + getMaoJogador() + "\n"
+    			+ "CartasD: " + getMaoDealer() + "\n"
+    			;
+    	
+        try (FileWriter writer = new FileWriter(nomeArq)) {
+            writer.write(conteudo);
+            System.out.println("Dados salvos no arquivo: " + nomeArq);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //+ "Aposta: " + 
+    
+    public static int leTxteSetGame() {
+    	// Parte da leitura do TXT
+    	
+    	String nomeArq = "dados.txt";
+    	String saldo = null;
+        String cartasJogador = null;
+        String cartasDealer = null;
+        String ultimaAposta = null;
+        
+        
+        
+
+        
+
+        try (BufferedReader br = new BufferedReader(new FileReader(nomeArq))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                if (linha.startsWith("Saldo:")) {
+                    saldo = linha.split(":")[1].trim();
+                } else if (linha.startsWith("UltimaAposta:")) {
+                	ultimaAposta = linha.split(":")[1].trim();
+                } else if (linha.startsWith("CartasJ:")) {
+                    cartasJogador = linha.split(":")[1].trim();
+                } else if (linha.startsWith("CartasD:")) {
+                    cartasDealer = linha.split(":")[1].trim();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+        System.out.println("Dados lidos do arquivo:");
+        System.out.println("Saldo: " + saldo);
+        System.out.println("UltimaAposta: " + ultimaAposta);
+        System.out.println("Cartas do Jogador: " + cartasJogador);
+        System.out.println("Cartas do Dealer: " + cartasDealer);
+        
+        if (cartasJogador != null && cartasDealer != null &&
+    	    !cartasJogador.equals("[]") && !cartasDealer.equals("[]")) {
+        	
+        	if (!(Integer.parseInt(saldo) == 2400) && !(Integer.parseInt(ultimaAposta) == 0)) {
+        		modelAPI.daCartasJeD(cartasJogador, cartasDealer);
+        	}
+        	else {
+        		modelAPI.daCartasJeD(cartasJogador, cartasDealer);
+        		return -2;
+        	}
+    	    
+    	} else {
+    	    return -1;
+    	}
+        
+        // Realiza a aposta
+        int aposta = Integer.parseInt(ultimaAposta);
+        
+        if (aposta >= 1){
+        	modelAPI.aposta(aposta);
+        }
+        
+        return 0;
+    }
+   
 }
 

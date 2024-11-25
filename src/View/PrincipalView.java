@@ -9,6 +9,8 @@ public class PrincipalView extends JFrame {
     private static JPanel contentPanel; 
     public static Jogador jogadorFrame;
     
+    private static Banca banca;
+    
     public PrincipalView() {
         setSize(800, 600);
         setMinimumSize(new Dimension(400, 300));
@@ -17,9 +19,12 @@ public class PrincipalView extends JFrame {
         contentPanel = new JPanel(new CardLayout());
         setContentPane(contentPanel);
         
+        
+        banca = new Banca(this);
+        
         contentPanel.add(new MenuInicial(this), "MenuInicial");
         contentPanel.add(new Creditos(this), "Creditos");
-        contentPanel.add(new Banca(this), "Banca");
+        contentPanel.add(banca, "Banca");
     }
   
     public static void trocarTela(String nomePainel) {
@@ -46,5 +51,9 @@ public class PrincipalView extends JFrame {
             jogadorFrame = Jogador.getInstancia();
             jogadorFrame.setVisible(false);
         });
+    }
+    
+    public static Banca getBanca() {
+        return banca;
     }
 }

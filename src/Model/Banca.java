@@ -34,6 +34,35 @@ class Banca {
         return total;
     }
     
+    public void setSaldo(int saldo) {
+        fichas.clear();
+        
+        while (saldo >= 100) {
+            fichas.add(new Ficha(100));
+            saldo -= 100;
+        }
+        while (saldo >= 50) {
+            fichas.add(new Ficha(50));
+            saldo -= 50;
+        }
+        while (saldo >= 20) {
+            fichas.add(new Ficha(20));
+            saldo -= 20;
+        }
+        while (saldo >= 10) {
+            fichas.add(new Ficha(10));
+            saldo -= 10;
+        }
+        while (saldo >= 5) {
+            fichas.add(new Ficha(5));
+            saldo -= 5;
+        }
+        while (saldo >= 1) {
+            fichas.add(new Ficha(1));
+            saldo -= 1;
+        }
+    }
+    
     public boolean apostar(int valor) {
         int[] valoresFichas = {100, 50, 20, 10, 5, 1};
         List<Ficha> fichasParaRemover = new ArrayList<>();

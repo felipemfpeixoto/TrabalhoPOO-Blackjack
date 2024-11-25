@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 class Jogador extends Participante {
 	
-	private int apostaAtual;
+	public int apostaAtual;
     private Banca banca;
 
     public Jogador(Banca banca) {

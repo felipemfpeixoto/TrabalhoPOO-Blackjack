@@ -4,9 +4,15 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+
+import Controller.GameController;
+
 import java.awt.*;
 
 public class MenuInicial extends JPanel {
+	
+	private Jogador jogadorFrame;
+	private Banca Banca;
     
     private JButton button_ini = new JButton("Iniciar");
     private JButton button_cnt = new JButton("Continuar");
@@ -39,9 +45,8 @@ public class MenuInicial extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         add(button_ini, gbc);
         
-        // Adicao para a proxima iteracao
-//        gbc.gridy = 1;
-//        add(button_cnt, gbc);
+        gbc.gridy = 1;
+        add(button_cnt, gbc);
         
         gbc.gridy = 2;
         add(button_cre, gbc);
@@ -51,6 +56,32 @@ public class MenuInicial extends JPanel {
             public void actionPerformed(ActionEvent e) {
             	PrincipalView.trocarTela("Banca");
             	System.out.println("Ir Banca");
+            }
+        });
+        
+        button_cnt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	int auxValue = GameController.leTxteSetGame();
+            	
+            	 if (auxValue == -1) {
+            		 JOptionPane.showMessageDialog(null, "Nao tem save, vamos iniciar outro jogo.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            	 }
+            	
+            	PrincipalView.trocarTela("Banca");
+            	System.out.println("Ir Banca");
+            	
+            	// Atualiza a View Jogador
+            	Jogador jogador = Jogador.getInstancia();
+                jogador.atualizaCartas();
+                
+                Banca banca = PrincipalView.getBanca(); // Método para obter a instância de Banca
+                if (banca != null) {
+                    banca.updateView();
+                } else {
+                    System.err.println("Erro: A instância de Banca é null!");
+                }
+            	
             }
         });
         
