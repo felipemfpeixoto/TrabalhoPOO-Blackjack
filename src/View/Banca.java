@@ -230,6 +230,7 @@ public class Banca extends JPanel {
 	        		// Mostra um alerta de que o jogador perdeu
 	        		JOptionPane.showMessageDialog(this, "Você perdeu! Estourou o limite de pontos.", "Alerta", JOptionPane.WARNING_MESSAGE);
 	        		resetaBet();
+	        		limpaSessao();
 	        	}
             }
         }));
@@ -244,6 +245,7 @@ public class Banca extends JPanel {
 	            		// Pedir mais uma carta para o dealer
 	                    dealerStatus = gameController.onStand();
 	                    
+	                   
 	                    // Atualizando a pontuação do dealer
 	                    dealerPoints = gameController.getPontosDealer();
 	                    dealerPointsLabel.setText("Pontos do Dealer: " + dealerPoints);
@@ -272,6 +274,12 @@ public class Banca extends JPanel {
         
         ArrayButtons.add(new myButton(0.84, 0.92, 0.14, 0.06, "sunder", false, () -> {
             System.out.println("Sunder Clicado");
+            if (!cartasNames.isEmpty() && !estourou) {
+            	limpaSessao();
+            	JOptionPane.showMessageDialog(this, "Você se rendeu! Faca uma nova aposta", "Alerta", JOptionPane.WARNING_MESSAGE);
+            	
+            }
+           
             
         }));
 
@@ -369,7 +377,16 @@ public class Banca extends JPanel {
         		cartas.add(newCarta);
         	}
         }
+    	
     	repaint();
+	}
+	
+	void limpaSessao() {
+		gameController.limpaSessao();
+    	jogador.atualizaCartas();
+    	updateView();
+    	resetaBet();
+    	rodadaTerminou = true;
 	}
 	
 	void updateView() {

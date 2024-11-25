@@ -150,6 +150,11 @@ public class GameController implements Observer {
     }
     //+ "Aposta: " + 
     
+    
+    public void limpaSessao() {
+    	 modelAPI.limpaCards();
+    }
+    
     public static int leTxteSetGame(String caminho) {
     	// Parte da leitura do TXT
     	

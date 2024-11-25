@@ -146,6 +146,11 @@ public class ModelAPI {
         notifyObservers("Cartas iniciais distribuídas");
     }
     
+    public void limpaCards() {
+    	jogador.reinicia();
+   	 	dealer.reinicia();
+    }
+    
     
     public void daCartasJeD(String cartasJogador, String cartasDealer) {
     	 System.out.println(cartasJogador);
