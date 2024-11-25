@@ -47,6 +47,9 @@ public class GameController implements Observer {
     	return modelAPI.getPontosDealer();
     }
     
+    public void devolverAposta(int valor) {
+    	modelAPI.setSaldo(valor);
+    }
 
     // Implementação do método update do Observer
     @Override
@@ -104,7 +107,7 @@ public class GameController implements Observer {
     public int onStand() {
         // Ação para encerrar o turno do jogador
         System.out.println("Jogador escolheu Stand (não quer mais cartas).");
-        notificarView("Stand - Turno Encerrado");
+//        notificarView("Stand - Turno Encerrado");
         
         modelAPI.pedirCartaDealer();
     	return modelAPI.dealerTurno();

@@ -201,17 +201,28 @@ public class Banca extends JPanel {
 	        	
 	        	jogador.atualizaCartas();
 	        	
-	        	if (jogador.points == 21) {
-	        		JOptionPane.showMessageDialog(this, "Você ganhou! Blackjack.", "Alerta", JOptionPane.WARNING_MESSAGE);
+	        	if(jogador.points == 21 && dealerPoints == 21) {
+	        		JOptionPane.showMessageDialog(this, "Empate! Dois Blackjack.", "Resultado", JOptionPane.WARNING_MESSAGE);
+	        		rodadaTerminou = true;
+	        		gameController.devolverAposta(bet + balance);
+                    resetaBet();
+	        	}
+	        	
+	        	if (jogador.points == 21 && !rodadaTerminou) {
+	        		JOptionPane.showMessageDialog(this, "Você ganhou! Blackjack.", "Resultado", JOptionPane.WARNING_MESSAGE);
 	        		ganhou();
 	        		rodadaTerminou = true;
 	        	}
-	        	if(dealerPoints == 21) {
-	        		JOptionPane.showMessageDialog(this, "Você perdeu! Blackjack.", "Alerta", JOptionPane.WARNING_MESSAGE);
+	        	if(dealerPoints == 21 && !rodadaTerminou) {
+	        		JOptionPane.showMessageDialog(this, "Você perdeu! Blackjack.", "Resultado", JOptionPane.WARNING_MESSAGE);
 	        		rodadaTerminou = true;
 	        		resetaBet();
 	        	}
 	            
+	        	if(rodadaTerminou) {
+	        		limpaSessao();
+	        	}
+	        	
 	        	repaint();
             }
         }));
@@ -228,7 +239,7 @@ public class Banca extends JPanel {
 	        	
 	        	if (estourou) {
 	        		// Mostra um alerta de que o jogador perdeu
-	        		JOptionPane.showMessageDialog(this, "Você perdeu! Estourou o limite de pontos.", "Alerta", JOptionPane.WARNING_MESSAGE);
+	        		JOptionPane.showMessageDialog(this, "Você perdeu! Estourou o limite de pontos.", "Resultado", JOptionPane.WARNING_MESSAGE);
 	        		resetaBet();
 	        		limpaSessao();
 	        	}
@@ -237,40 +248,45 @@ public class Banca extends JPanel {
         
         ArrayButtons.add(new myButton(0.84, 0.845, 0.14, 0.06, "stand", false, () -> {
             System.out.println("Stand Clicado");
-            
-            if (!cartasNames.isEmpty() && !estourou) {
-            	
-            	if (gameController.getPontosDealer() < 17 ) {
-	            	while (dealerStatus < 1) { // Terminar a jogada do dealer
-	            		// Pedir mais uma carta para o dealer
-	                    dealerStatus = gameController.onStand();
-	                    
-	                   
-	                    // Atualizando a pontuação do dealer
-	                    dealerPoints = gameController.getPontosDealer();
-	                    dealerPointsLabel.setText("Pontos do Dealer: " + dealerPoints);
-	                    System.out.println("Ainda no while");
-	            	}
-		        	
-		        	// Aqui, analisar qual foi o resultado e mostrar na tela como um aviso
-		        	if (dealerStatus == 1) {
-		        		System.out.println("Dealer Parou");
-		        	} else {
-		        		System.out.println("Dealer Estourou");
-		        		// Reinii
-		        		JOptionPane.showMessageDialog(this, "Você ganhou! Dealer estourou.", "Alerta", JOptionPane.WARNING_MESSAGE);
-		        		ganhou();
-		        		
-		        	}
-            	} else {
-            		dealerStatus = 1;
-	        		System.out.println("Dealer Parou");
-            	}
-            	rodadaTerminou = true;
-        		atualizaCartasBanca();
+
+            if (!cartasNames.isEmpty() && !estourou && !rodadaTerminou) {
+                dealerStatus = 0;
+                
+                while (dealerStatus == 0) {
+                    dealerStatus = gameController.onStand();
+                    dealerPoints = gameController.getPontosDealer();
+                    dealerPointsLabel.setText("Pontos do Dealer: " + dealerPoints);
+                    atualizaCartasBanca();
+                    repaint();
+                }
+
+                if (dealerStatus == 1) {	// Dealer parou com pontos entre 17 e 21
+                    
+                    int playerPoints = gameController.getPontosJogador();
+
+                    if (playerPoints > dealerPoints) {
+                        JOptionPane.showMessageDialog(this, "Você ganhou! Sua pontuação é maior.", "Resultado", JOptionPane.INFORMATION_MESSAGE);
+                        ganhou();
+                    } else if (playerPoints < dealerPoints) {
+                        JOptionPane.showMessageDialog(this, "Você perdeu! Dealer tem pontuação maior.", "Resultado", JOptionPane.INFORMATION_MESSAGE);
+                        resetaBet();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Empate! A aposta será devolvida.", "Resultado", JOptionPane.INFORMATION_MESSAGE);
+                        gameController.devolverAposta(bet + balance);
+                        resetaBet();
+                    }
+                } else if (dealerStatus == 2) {		// Dealer estourou
+                    
+                    JOptionPane.showMessageDialog(this, "Você ganhou! Dealer estourou.", "Resultado", JOptionPane.INFORMATION_MESSAGE);
+                    ganhou();
+                }
+
+                rodadaTerminou = true;
+                limpaSessao();
             }
-            
         }));
+
+
         
         ArrayButtons.add(new myButton(0.84, 0.92, 0.14, 0.06, "sunder", false, () -> {
             System.out.println("Sunder Clicado");
