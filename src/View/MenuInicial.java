@@ -3,6 +3,8 @@ package View;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+
 import javax.swing.*;
 
 import Controller.GameController;
@@ -60,29 +62,45 @@ public class MenuInicial extends JPanel {
         });
         
         button_cnt.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	int auxValue = GameController.leTxteSetGame();
-            	
-            	 if (auxValue == -1) {
-            		 JOptionPane.showMessageDialog(null, "Nao tem save, vamos iniciar outro jogo.", "Alerta", JOptionPane.WARNING_MESSAGE);
-            	 }
-            	
-            	PrincipalView.trocarTela("Banca");
-            	System.out.println("Ir Banca");
-            	
-            	// Atualiza a View Jogador
-            	Jogador jogador = Jogador.getInstancia();
-                jogador.atualizaCartas();
-                
-                Banca banca = PrincipalView.getBanca(); // Método para obter a instância de Banca
-                if (banca != null) {
-                    banca.updateView();
-                } else {
-                    System.err.println("Erro: A instância de Banca é null!");
-                }
-            	
-            }
+        	 @Override
+        	    public void actionPerformed(ActionEvent e) {
+    	        // Criação do JFileChooser
+    	        JFileChooser fileChooser = new JFileChooser();
+    	        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY); // Apenas arquivos
+
+    	        // Exibe o diálogo e captura a ação do usuário
+    	        int retorno = fileChooser.showOpenDialog(null);
+
+    	        if (retorno == JFileChooser.APPROVE_OPTION) {
+    	            // Obtendo o arquivo selecionado
+    	            File arquivoSelecionado = fileChooser.getSelectedFile();
+    	            
+    	            // Processar o arquivo com GameController
+    	            int auxValue = GameController.leTxteSetGame(arquivoSelecionado.getAbsolutePath());
+
+    	            if (auxValue == -1) {
+    	                JOptionPane.showMessageDialog(null, "Não há save válido, vamos iniciar outro jogo.", "Alerta", JOptionPane.WARNING_MESSAGE);
+    	            }
+
+    	            // Trocar a tela
+    	            PrincipalView.trocarTela("Banca");
+    	            System.out.println("Ir para Banca");
+
+    	            // Atualizar a View do Jogador
+    	            Jogador jogador = Jogador.getInstancia();
+    	            jogador.atualizaCartas();
+
+    	            // Atualizar a View da Banca
+    	            Banca banca = PrincipalView.getBanca();
+    	            if (banca != null) {
+    	                banca.updateView();
+    	            } else {
+    	                System.err.println("Erro: A instância de Banca é null!");
+    	            }
+    	        } else {
+    	            System.out.println("Operação cancelada pelo usuário.");
+    	        }
+    	    }
         });
         
         button_cre.addActionListener(new ActionListener() {

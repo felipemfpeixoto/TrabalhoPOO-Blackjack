@@ -150,10 +150,10 @@ public class GameController implements Observer {
     }
     //+ "Aposta: " + 
     
-    public static int leTxteSetGame() {
+    public static int leTxteSetGame(String caminho) {
     	// Parte da leitura do TXT
     	
-    	String nomeArq = "dados.txt";
+    	String nomeArq = caminho;
     	String saldo = null;
         String cartasJogador = null;
         String cartasDealer = null;
